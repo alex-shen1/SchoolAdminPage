@@ -39,14 +39,14 @@ export default class ClassDisplay extends Component {
         }
     }
     render() {
-        return <div>
+        return <div className="classes">
             {Object.keys(this.state.classes).map(classID => {
                 return <Card>
                 <Card.Body>
                     <Card.Title>{classID}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">Taught by: {this.state.classes[classID].teachers[0].name}</Card.Subtitle>
                     <Card.Text>
-                        Students: 
+                        Students: <br/>
                         {this.state.classes[classID].students.map(student => {return student.name})}
                     </Card.Text>
                 </Card.Body>

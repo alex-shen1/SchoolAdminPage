@@ -4,6 +4,7 @@ import 'bootswatch/dist/slate/bootstrap.min.css';
 
 import LoginPanel from "./components/LoginPanel"
 import ClassDisplay from "./components/ClassDisplay"
+import StudentDisplay from "./components/StudentDisplay"
 
 import firebase from "./firebase"
 
@@ -11,43 +12,51 @@ import Button from "react-bootstrap/Button"
 
 const testingData = {
   admins: [{
-    name: "AdminName",
+    name: "Admin Name",
     id: "CDZaxVJThgTf3mEMJMjuyP8IVeW2"
   }], //holds UIDs of admin accounts
   teachers: [{
-    name: "TeacherName",
-    class: "History",
+    name: "Teacher Name",
+    class: "Class 100",
     id: "tz9ehdvIDmRIF2IDHpv3XcMrznw2" // just teacher@teacher.com
   },
   {
-    name: "TeacherName2",
-    class: "Math",
+    name: "Teacher Name2",
+    class: "Class 200",
     id: "mZoHc5O4DTdFTMBo1Ax31Bq8PRv2"
   }],
   students: [
     {
-      name: "StudentName",
-      class: "Math",
+      name: "Some Guy",
+      firstName: "Some",
+      lastName: "Guy",
+      class: "Class 200",
       GPA: 4
     }
   ],
 }
 
-console.log(testingData.teachers)
+// console.log(testingData.teachers)
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // data: null,
-      data: testingData,
+      data: null,
+      // data: testingData, // works without needing local data
       validLogin: false,
       errorMSG: null,
       isAdmin: false
     }
   }
+  resetData = () => {
+    this.setState({ data: testingData },
+      () => {
+        this.setData();
+      })
+  }
+
   setData = () => {
-    this.setState({data: testingData})
     Object.keys(this.state.data).map(userCategory => {
       // console.log(userCategory)
       // console.log(this.state.data[userCategory]);
@@ -63,10 +72,12 @@ class App extends Component {
     })
   }
   checkUserIsAdmin = (id) => {
-    this.state.data.admins.map(admin => {
-      console.log(admin)
+    Object.keys(this.state.data.admins).map(index => {
+      // console.log(admin)
+      let admin = this.state.data.admins[index]
       if (admin.id.toString() === id.toString()) {
-        this.setState({ isAdmin: true })
+        console.log("admin logged in found")
+        this.setState({ isAdmin: true, usersName:admin.name})
         // return true;
       }
     })
@@ -74,40 +85,54 @@ class App extends Component {
   }
 
   loadData = () => {
+    console.log("loading")
     firebase.database().ref("data").once("value", snapshot => {
       if (snapshot && snapshot.exists()) {
-        this.setState({ data: snapshot.val() })
+        this.setState({ data: snapshot.val() }, () => {
+          let id = firebase.auth().currentUser.uid;
+        console.log(id);
+        this.checkUserIsAdmin(id);
+        })
       }
     })
   }
+
   handleLogin = (username, password) => {
     firebase.auth().signInWithEmailAndPassword(username, password)
       .then(() => {
         this.setState({ validLogin: true, })
 
         this.loadData();
-
-        let id = firebase.auth().currentUser.uid;
-        this.checkUserIsAdmin(id);
-
-        let path = "data/";
-        if (this.state.isAdmin) {
-          path += "admins/" + id;
-        }
-        else {
-          path += "teachers/" + id;
-        }
-        firebase.database().ref(path).once("value", snapshot => {
-          if (snapshot && snapshot.exists()) {
-            this.setState({ usersName: snapshot.val().name })
-          }
-        })
-
-      }
-      ).catch(error => {
+      }).catch(error => {
         console.log(error.message);
         this.setState({ errorMSG: error.message.toString() })
       })
+        // let id = firebase.auth().currentUser.uid;
+        // console.log(id);
+        // this.checkUserIsAdmin(id);
+
+        // let path = "data/";
+        // if (this.state.isAdmin) {
+        //   path += "admins/" + id;
+        // }
+        // else {
+        //   path += "teachers/" + id;
+        // }
+        // console.log(path)
+        // firebase.database().ref("data/admins"+id).once("value", snapshot => {
+        //   if (snapshot && snapshot.exists()) {
+        //     this.setState({ usersName: snapshot.val().name })
+        //   }
+        //   else{
+            
+        //   }
+        // }).catch(firebase.database().ref("data/teachers"+id).once("value", snapshot => {
+        //   if (snapshot && snapshot.exists()) {
+        //     this.setState({ usersName: snapshot.val().name })
+        //   }
+        // }))
+
+      
 
     console.log(firebase.auth().currentUser)
   }
@@ -117,15 +142,16 @@ class App extends Component {
       <div className="App">
         Welcome, {this.state.usersName}
         <div className="info">
-        <LoginPanel
-          handleLogin={this.handleLogin}
-          errorMSG={this.state.errorMSG}
-          validLogin={this.state.validLogin} />
-        <ClassDisplay
-          data={this.state.data}
-        />
+          <LoginPanel
+            handleLogin={this.handleLogin}
+            errorMSG={this.state.errorMSG}
+            validLogin={this.state.validLogin} />
+
+          <StudentDisplay data={this.state.data} />
+          <ClassDisplay data={this.state.data} />
+
         </div>
-        <Button onClick={this.setData}>RESET DATABASE</Button>
+        <Button onClick={this.resetData}>RESET DATABASE (delete later)</Button>
       </div>
     );
   }
