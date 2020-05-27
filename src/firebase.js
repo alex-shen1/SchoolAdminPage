@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+//these imports are what enable the function calls auth() and database()
+import "firebase/auth"; 
+import "firebase/database"
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -15,5 +16,4 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
 export default firebase;

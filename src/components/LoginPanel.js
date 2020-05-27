@@ -17,9 +17,7 @@ export default class LoginPanel extends Component {
     }
 
     handleLoginButton = () => {
-        this.props.handleLogin(this.state.username, this.state.password)
-        console.log(this.props.errorMSG);
-        
+        this.props.handleLogin(this.state.username, this.state.password)        
     }
 
     render() {
