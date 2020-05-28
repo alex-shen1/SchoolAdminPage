@@ -120,7 +120,6 @@ class App extends Component {
   removeStudent = (removed_student) => {
     firebase.database().ref("data/students/" + removed_student.id).remove();
     this.loadData();
-
   }
   addStudent = (student) => {
     let new_id=0;

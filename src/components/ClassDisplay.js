@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import Card from "react-bootstrap/Card"
+import Button from "react-bootstrap/Button";
+import EditClassPanel from "./EditClassPanel"
 export default class ClassDisplay extends Component {
     constructor(props) {
         super(props);
@@ -35,26 +37,27 @@ export default class ClassDisplay extends Component {
             } catch (e) {
                 console.log("no students")
             }
-            // for (let teacher of this.props.data.teachers){
-            //     console.log(teacher)
-
-            // }
             this.setState({ classes: uniqueClasses });
             this.props.classesRef.set(uniqueClasses);
         }
     }
+
     render() {
         return <div className="classes">
             <h1>Classes</h1>
             {Object.keys(this.state.classes).map(classID => {
                 return <Card>
                     <Card.Body>
-                        <Card.Title>{classID}</Card.Title>
+                        <Card.Title>{classID} </Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">Taught by: {this.state.classes[classID].teachers[0].name}</Card.Subtitle>
                         <Card.Text>
                             Students: <br />
                             {this.state.classes[classID].students.map(student => { return (student.firstName + " " + student.lastName + ", ") })}
                         </Card.Text>
+                        
+                        <EditClassPanel 
+                        classID={classID}
+                        classesRef={this.props.classesRef}/>
                     </Card.Body>
                 </Card>
             })}
