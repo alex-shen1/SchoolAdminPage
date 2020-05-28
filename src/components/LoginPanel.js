@@ -6,7 +6,8 @@ export default class LoginPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "admin@admin.com", // default credentials; remove later
+            // username: "admin@admin.com", // default credentials; remove later
+            username: "teacher@teacher.com",
             password: "password",
         }
     }

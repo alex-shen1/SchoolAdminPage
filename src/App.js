@@ -25,6 +25,8 @@ class App extends Component {
       isAdmin: false
     }
   }
+
+  // resets Firebase data to testingData
   resetData = () => {
     this.setState({ data: testingData },
       () => {
@@ -32,7 +34,8 @@ class App extends Component {
       })
   }
 
-  setData = () => {
+  // sets Firebase to state.data
+  setData = () => { 
     Object.keys(this.state.data).map(userCategory => {
       // console.log(userCategory)
       // console.log(this.state.data[userCategory]);
@@ -61,7 +64,6 @@ class App extends Component {
   }
 
   loadData = () => {
-    console.log("loading")
     firebase.database().ref("data").once("value", snapshot => {
       if (snapshot && snapshot.exists()) {
         this.setState({ data: snapshot.val() }, () => {
@@ -107,10 +109,16 @@ class App extends Component {
     //     this.setState({ usersName: snapshot.val().name })
     //   }
     // }))
+    // console.log(firebase.auth().currentUser)
+  }
 
+  removeStudent = (removed_student) => {
+    firebase.database().ref("data/students/" + removed_student.id).remove();
+    this.loadData();
 
+  }
+  insertStudent = () => {
 
-    console.log(firebase.auth().currentUser)
   }
 
   render() {
@@ -123,7 +131,10 @@ class App extends Component {
             errorMSG={this.state.errorMSG}
             validLogin={this.state.validLogin} />
 
-          <StudentDisplay data={this.state.data} />
+          <StudentDisplay 
+          data={this.state.data}
+          removeStudent={this.removeStudent} 
+          isAdmin={this.state.isAdmin}/>
           <ClassDisplay
             data={this.state.data}
             classesRef={firebase.database().ref("data/classes")}

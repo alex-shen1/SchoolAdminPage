@@ -11,9 +11,8 @@ export default class ClassDisplay extends Component {
 
     componentDidUpdate = (prevProps) => {
         if (this.props.data != null && this.props.data != prevProps.data) {
-            console.log(this.props.data)
             let uniqueClasses = {};
-            console.log(this.props.data.teachers)
+
             Object.keys(this.props.data.teachers).map(index => {
                 let teacher = this.props.data.teachers[index];
                 if (!Object.keys(uniqueClasses).includes(teacher.class)) {
@@ -26,15 +25,18 @@ export default class ClassDisplay extends Component {
                     uniqueClasses[teacher.class].teachers.push(teacher)
                 }
             })
-            Object.keys(this.props.data.students).map(index => {
+            try {
+                Object.keys(this.props.data.students).map(index => {
                 let student = this.props.data.students[index];
                 uniqueClasses[student.class].students.push(student)
             })
+        }catch(e){
+            console.log("no students")
+        }
             // for (let teacher of this.props.data.teachers){
             //     console.log(teacher)
 
             // }
-            console.log(uniqueClasses)
             this.setState({ classes: uniqueClasses });
             this.props.classesRef.set(uniqueClasses);
         }

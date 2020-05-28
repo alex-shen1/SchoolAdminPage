@@ -9,17 +9,19 @@ import Form from 'react-bootstrap/Form';
 import EditStudentPanel from "./EditStudentPanel";
 import {fieldFormatter} from "../data";
 
-export default class ClassDisplay extends Component {
+export default class StudentDisplay extends Component {
     constructor(props) {
         super(props);
         this.state = {
             classes: {},
             editingStudent: false,
             editedStudent: {
-                "First Name": "",
-                "Last Name": "",
-                "Grade": "",
-                "GPA": ""
+                firstName: "",
+                lastName: "",
+                class: "",
+                grade: "",
+                GPA: "",
+
             }
         }
     }
@@ -33,12 +35,16 @@ export default class ClassDisplay extends Component {
         this.setState({ student: temp })
         console.log(field + " " + value);
     }
+
+    saveStudent = () => {
+
+    }
     render() {
         let count = 0;
         return <div className="students">
             <h1>Students</h1>
             <Accordion >
-                {this.props.data != null &&
+                {this.props.data != null && this.props.data.students != null &&
                     Object.keys(this.props.data.students).map(index => {
                         let student = this.props.data.students[index];
                         return (
@@ -51,11 +57,13 @@ export default class ClassDisplay extends Component {
                                 <Accordion.Collapse eventKey={count++ + ""}>
                                     <Card.Body>
                                         {Object.keys(student).map(field => {
-                                            console.log(fieldFormatter);
+                                            // console.log(fieldFormatter);
                                             return <div>
-                                                {fieldFormatter[field] + ": " + student[field]} <br />
+                                                {field != "id" ? fieldFormatter[field] + ": " + student[field] +"\n" : ""}
                                             </div>
                                         })}
+                                        <Button disabled={!(this.props.isAdmin)}
+                                        onClick={()=>this.props.removeStudent(student)}>Remove student</Button>
 
                                     </Card.Body>
                                 </Accordion.Collapse>
@@ -63,13 +71,16 @@ export default class ClassDisplay extends Component {
                         )
                     })}
             </Accordion>
-            <Button className="createStudent" onClick={() => this.setState({ editingStudent: true })}>
+            <Button className="createStudent" 
+            onClick={() => this.setState({ editingStudent: true })}
+            disabled={!(this.props.isAdmin)}>
                 Create new student
             </Button>
             <EditStudentPanel
                 editingStudent={this.state.editingStudent}
                 closeModal={this.closeModal}
-                editStudent={this.editStudent} />
+                editStudent={this.editStudent}
+                editedStudent={this.state.editedStudent} />
         </div>
     }
 }

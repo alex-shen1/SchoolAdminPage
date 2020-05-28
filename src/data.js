@@ -19,7 +19,16 @@ const testingData = {
         lastName: "Guy",
         class: "Class 200",
         GPA: 4,
-        grade: 1
+        grade: 1,
+        id: 123
+      },
+      {
+        firstName: "Some",
+        lastName: "Guy2",
+        class: "Class 100",
+        GPA: 3,
+        grade: 2,
+        id: 456
       }
     ],
   }
