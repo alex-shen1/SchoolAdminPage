@@ -20,6 +20,10 @@ export default class LoginPanel extends Component {
         this.props.handleLogin(this.state.username, this.state.password)        
     }
 
+    componentDidMount() { // temporary testing method
+        this.props.handleLogin(this.state.username, this.state.password) 
+    }
+
     render() {
         return <div>
             <Modal show={!this.props.validLogin} onHide={this.handleClose}>
@@ -53,7 +57,6 @@ export default class LoginPanel extends Component {
                     {/* </Button> */}
                 </Modal.Footer>
             </Modal>
-
         </div>
     }
 }

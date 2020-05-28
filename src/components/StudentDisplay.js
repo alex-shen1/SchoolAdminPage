@@ -3,37 +3,73 @@ import React, { Component } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+
+import EditStudentPanel from "./EditStudentPanel";
+import {fieldFormatter} from "../data";
 
 export default class ClassDisplay extends Component {
     constructor(props) {
         super(props);
         this.state = {
             classes: {},
+            editingStudent: false,
+            editedStudent: {
+                "First Name": "",
+                "Last Name": "",
+                "Grade": "",
+                "GPA": ""
+            }
         }
     }
+    closeModal = () => {
+        this.setState({ editingStudent: false })
+    }
+
+    editStudent = (field, value) => {
+        let temp = this.state.editedStudent;
+        temp[field] = value;
+        this.setState({ student: temp })
+        console.log(field + " " + value);
+    }
     render() {
-        let count=0;
+        let count = 0;
         return <div className="students">
+            <h1>Students</h1>
             <Accordion >
                 {this.props.data != null &&
-                Object.keys(this.props.data.students).map(index => {
-                    let student = this.props.data.students[index];
-                    return (
-                        <Card>
-                            <Card.Header>
-                                <Accordion.Toggle as={Button} variant="link" eventKey={count + ""}>
-                                    {student.name}
-                                </Accordion.Toggle>
-                            </Card.Header>
-                            <Accordion.Collapse eventKey={count++ + ""}>
-                                <Card.Body>
-                                    GPA: {student.GPA} 
-                                </Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
-                    )
-                })}
+                    Object.keys(this.props.data.students).map(index => {
+                        let student = this.props.data.students[index];
+                        return (
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey={count + ""}>
+                                        {student.firstName + " " + student.lastName}
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey={count++ + ""}>
+                                    <Card.Body>
+                                        {Object.keys(student).map(field => {
+                                            console.log(fieldFormatter);
+                                            return <div>
+                                                {fieldFormatter[field] + ": " + student[field]} <br />
+                                            </div>
+                                        })}
+
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        )
+                    })}
             </Accordion>
+            <Button className="createStudent" onClick={() => this.setState({ editingStudent: true })}>
+                Create new student
+            </Button>
+            <EditStudentPanel
+                editingStudent={this.state.editingStudent}
+                closeModal={this.closeModal}
+                editStudent={this.editStudent} />
         </div>
     }
 }

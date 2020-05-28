@@ -36,6 +36,7 @@ export default class ClassDisplay extends Component {
             // }
             console.log(uniqueClasses)
             this.setState({ classes: uniqueClasses });
+            this.props.classesRef.set(uniqueClasses);
         }
     }
     render() {
