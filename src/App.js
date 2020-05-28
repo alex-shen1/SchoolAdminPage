@@ -60,6 +60,9 @@ class App extends Component {
         // return true;
       }
     })
+    if(!this.state.isAdmin){
+      this.setState({usersName: this.state.data.teachers[id].name})
+    }
     // return false;
   }
 
