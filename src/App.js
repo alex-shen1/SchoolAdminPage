@@ -51,16 +51,18 @@ class App extends Component {
     })
   }
   checkUserIsAdmin = (id) => {
+    let isAdmin = false;
     Object.keys(this.state.data.admins).map(index => {
       // console.log(admin)
       let admin = this.state.data.admins[index]
       if (admin.id.toString() === id.toString()) {
         console.log("admin logged in found")
+        isAdmin = true;
         this.setState({ isAdmin: true, usersName: admin.name })
         // return true;
       }
     })
-    if(!this.state.isAdmin){
+    if(!isAdmin){
       this.setState({usersName: this.state.data.teachers[id].name})
     }
     // return false;
