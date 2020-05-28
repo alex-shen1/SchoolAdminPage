@@ -46,7 +46,7 @@ export default class EditStudentPanel extends Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="success" onClick={this.handleLoginButton}>Create Student</Button>
+                    <Button variant="success" onClick={()=>this.props.submitChanges()}>Create Student</Button>
                     <Button variant="secondary" onClick={this.props.closeModal}>
                         Cancel
                         </Button>

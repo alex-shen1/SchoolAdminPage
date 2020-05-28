@@ -122,9 +122,22 @@ class App extends Component {
     this.loadData();
 
   }
-  insertStudent = () => {
-
+  addStudent = (student) => {
+    let new_id=0;
+    Object.keys(this.state.data.students).map(id=>{
+      if(new_id < parseInt(id)){
+        new_id = parseInt(id) + 1;
+      }
+    })
+    student["id"] = new_id;
+    firebase.database().ref("data/students/" + student.id).set(student)
+    this.loadData();
   }
+
+  // editStudent = (edited_student, id) => {
+  //   edited_student["id"] = id;
+  //   firebase.database().ref("data/students/" + id).set(edited_student)
+  // }
 
   render() {
     return (
@@ -139,6 +152,7 @@ class App extends Component {
           <StudentDisplay 
           data={this.state.data}
           removeStudent={this.removeStudent} 
+          addStudent={this.addStudent}
           isAdmin={this.state.isAdmin}/>
           <ClassDisplay
             data={this.state.data}

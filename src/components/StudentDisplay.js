@@ -36,6 +36,9 @@ export default class StudentDisplay extends Component {
         console.log(field + " " + value);
     }
 
+    submitChanges = () => {
+        this.props.addStudent(this.state.editedStudent);
+    }
     saveStudent = () => {
 
     }
@@ -80,7 +83,8 @@ export default class StudentDisplay extends Component {
                 editingStudent={this.state.editingStudent}
                 closeModal={this.closeModal}
                 editStudent={this.editStudent}
-                editedStudent={this.state.editedStudent} />
+                editedStudent={this.state.editedStudent}
+                submitChanges={this.submitChanges} />
         </div>
     }
 }
