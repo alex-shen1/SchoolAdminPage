@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 import EditStudentPanel from "./EditStudentPanel";
-import {fieldFormatter} from "../data";
+import { fieldFormatter, formatStudentData } from "../data";
 
 export default class StudentDisplay extends Component {
     constructor(props) {
@@ -21,8 +21,8 @@ export default class StudentDisplay extends Component {
                 class: "",
                 grade: "",
                 GPA: "",
-
-            }
+            },
+            creatingNewStudent: false // this shouldn't matter
         }
     }
     closeModal = () => {
@@ -33,14 +33,25 @@ export default class StudentDisplay extends Component {
         let temp = this.state.editedStudent;
         temp[field] = value;
         this.setState({ student: temp })
-        console.log(field + " " + value);
+        // console.log(field + " " + value);
     }
 
     submitChanges = () => {
         this.props.addStudent(this.state.editedStudent);
     }
-    saveStudent = () => {
 
+    openEditMenu = (student) => {
+        let temp = this.state.editedStudent;
+        Object.keys(student).map(field => {
+            temp[field] = student[field]
+        })
+        // using temp to preserve order
+        this.setState({
+            editedStudent: temp,
+            creatingNewStudent: false
+        },
+            () => this.setState({ editingStudent: true }))
+        // setting state editingStudent must be callback because these need to run in order
     }
     render() {
         let count = 0;
@@ -59,14 +70,19 @@ export default class StudentDisplay extends Component {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={count++ + ""}>
                                     <Card.Body>
-                                        {Object.keys(student).map(field => {
+                                        {Object.keys(formatStudentData(student)).map(field => {
                                             // console.log(fieldFormatter);
                                             return <div>
-                                                {field != "id" ? fieldFormatter[field] + ": " + student[field] +"\n" : ""}
+                                                {!["id","firstName","lastName"].includes(field) ? fieldFormatter[field] + ": " + (student)[field] + "\n" : ""}
                                             </div>
                                         })}
-                                        <Button disabled={!(this.props.isAdmin)}
-                                        onClick={()=>this.props.removeStudent(student)}>Remove student</Button>
+
+                                        <Button
+                                            disabled={!(this.props.isAdmin)}
+                                            onClick={() => this.openEditMenu(student)}>Edit student</Button>
+                                        <Button
+                                            disabled={!(this.props.isAdmin)}
+                                            onClick={() => this.props.removeStudent(student)}>Remove student</Button>
 
                                     </Card.Body>
                                 </Accordion.Collapse>
@@ -74,9 +90,9 @@ export default class StudentDisplay extends Component {
                         )
                     })}
             </Accordion>
-            <Button className="createStudent" 
-            onClick={() => this.setState({ editingStudent: true })}
-            disabled={!(this.props.isAdmin)}>
+            <Button className="createStudent"
+                onClick={() => this.setState({ editingStudent: true, creatingNewStudent: true })}
+                disabled={!(this.props.isAdmin)}>
                 Create new student
             </Button>
             <EditStudentPanel
@@ -84,7 +100,8 @@ export default class StudentDisplay extends Component {
                 closeModal={this.closeModal}
                 editStudent={this.editStudent}
                 editedStudent={this.state.editedStudent}
-                submitChanges={this.submitChanges} />
+                submitChanges={this.submitChanges}
+                creatingNewStudent={this.state.creatingNewStudent} />
         </div>
     }
 }

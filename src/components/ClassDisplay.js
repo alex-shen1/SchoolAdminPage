@@ -21,18 +21,20 @@ export default class ClassDisplay extends Component {
                         students: []
                     };
                 }
-                else{
+                else {
                     uniqueClasses[teacher.class].teachers.push(teacher)
                 }
             })
             try {
+                // assume that students cannot be in a class with no teacher, but the
+                // app doesn't actually have error checking for this at the moment
                 Object.keys(this.props.data.students).map(index => {
-                let student = this.props.data.students[index];
-                uniqueClasses[student.class].students.push(student)
-            })
-        }catch(e){
-            console.log("no students")
-        }
+                    let student = this.props.data.students[index];
+                    uniqueClasses[student.class].students.push(student)
+                })
+            } catch (e) {
+                console.log("no students")
+            }
             // for (let teacher of this.props.data.teachers){
             //     console.log(teacher)
 
@@ -43,19 +45,20 @@ export default class ClassDisplay extends Component {
     }
     render() {
         return <div className="classes">
+            <h1>Classes</h1>
             {Object.keys(this.state.classes).map(classID => {
                 return <Card>
-                <Card.Body>
-                    <Card.Title>{classID}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">Taught by: {this.state.classes[classID].teachers[0].name}</Card.Subtitle>
-                    <Card.Text>
-                        Students: <br/>
-                        {this.state.classes[classID].students.map(student => {return student.name})}
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+                    <Card.Body>
+                        <Card.Title>{classID}</Card.Title>
+                        <Card.Subtitle className="mb-2 text-muted">Taught by: {this.state.classes[classID].teachers[0].name}</Card.Subtitle>
+                        <Card.Text>
+                            Students: <br />
+                            {this.state.classes[classID].students.map(student => { return (student.firstName + " " + student.lastName + ", ") })}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
             })}
-            
+
         </div>
     }
 }

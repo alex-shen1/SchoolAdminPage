@@ -153,6 +153,7 @@ class App extends Component {
           data={this.state.data}
           removeStudent={this.removeStudent} 
           addStudent={this.addStudent}
+          editStudent={this.editStudent}
           isAdmin={this.state.isAdmin}/>
           <ClassDisplay
             data={this.state.data}
