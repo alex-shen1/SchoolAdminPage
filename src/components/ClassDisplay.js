@@ -32,7 +32,15 @@ export default class ClassDisplay extends Component {
                 // app doesn't actually have error checking for this at the moment
                 Object.keys(this.props.data.students).map(index => {
                     let student = this.props.data.students[index];
-                    uniqueClasses[student.class].students.push(student)
+                    if (!Object.keys(uniqueClasses).includes(student.class)) {
+                        uniqueClasses[student.class] = {
+                            teachers: [],
+                            students: [student]
+                        };
+                    }
+                    else {
+                        uniqueClasses[student.class].students.push(student)
+                    }
                 })
             } catch (e) {
                 console.log("no students")
@@ -49,15 +57,18 @@ export default class ClassDisplay extends Component {
                 return <Card>
                     <Card.Body>
                         <Card.Title>{classID} </Card.Title>
-                        <Card.Subtitle className="mb-2 text-muted">Taught by: {this.state.classes[classID].teachers[0].name}</Card.Subtitle>
+                        <Card.Subtitle className="mb-2 text-muted">Taught by: 
+                        {" " + this.state.classes[classID].teachers.map(teacher => { return (teacher.name + ", ")})}</Card.Subtitle>
+
+                        {/* TODO: figure out how to handle cases w/ 0 teachers */}
                         <Card.Text>
                             Students: <br />
                             {this.state.classes[classID].students.map(student => { return (student.firstName + " " + student.lastName + ", ") })}
                         </Card.Text>
-                        
-                        <EditClassPanel 
-                        classID={classID}
-                        classesRef={this.props.classesRef}/>
+
+                        <EditClassPanel
+                            classID={classID}
+                            classesRef={this.props.classesRef} />
                     </Card.Body>
                 </Card>
             })}
