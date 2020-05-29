@@ -75,6 +75,10 @@ export default class PeopleDisplay extends Component {
             () => this.setState({ editingPerson: true }))
         // setting state editingPerson must be callback because these need to run in order
     }
+
+    openCreateMenu = () => {
+        this.setState({ editedPerson: this.props.personType == "Student" ? studentTemplate : teacherTemplate, editingPerson: true, creatingNewPerson: true })
+    }
     render() {
         let count = 0;
         // console.log(typeof this.props.formatData)
@@ -122,10 +126,10 @@ export default class PeopleDisplay extends Component {
                 editedObjectType={this.props.personType}
                 fieldFormatter={this.props.fieldFormatter}
                 db={this.props.db} />
-                
+
             <div className="createPerson">
                 <Button
-                    onClick={() => this.setState({ editingPerson: true, creatingNewPerson: true })}
+                    onClick={() => this.openCreateMenu()}
                     disabled={!(this.props.isAdmin)}>
                     {"Create new " + this.props.personType.toLowerCase()}
                 </Button>
