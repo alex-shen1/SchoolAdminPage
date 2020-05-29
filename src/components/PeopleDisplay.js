@@ -23,7 +23,6 @@ export default class PeopleDisplay extends Component {
                 GPA: "",
                 id: ""
             },
-            // editingID: null,
             creatingNewPerson: false // this shouldn't matter
         }
     }
@@ -43,13 +42,11 @@ export default class PeopleDisplay extends Component {
             added_person["id"] = new_id;
             this.props.db.ref("data/students/" + added_person.id).set(added_person)
         }
-        // this.loadData();
     }
     editPerson = (edited_person) => {
         let categoryPath = this.props.personType.toLowerCase() + "s/"
-        this.props.db.ref("data/students/" + edited_person.id).set(edited_person)
+        this.props.db.ref("data/" + categoryPath + edited_person.id).set(edited_person)
     }
-
 
     closeModal = () => this.setState({ editingPerson: false })
 
@@ -57,7 +54,6 @@ export default class PeopleDisplay extends Component {
         let temp = this.state.editedPerson;
         temp[field] = value;
         this.setState({ editedPerson: temp })
-        // console.log(field + " " + value);
     }
 
     submitChanges = () => {
@@ -113,7 +109,7 @@ export default class PeopleDisplay extends Component {
                                             onClick={() => this.openEditMenu(person)}>{"Edit " + this.props.personType.toLowerCase()}</Button>
                                         <Button
                                             disabled={!(this.props.isAdmin)}
-                                            onClick={() => this.props.removeObject(person)}>{"Remove " + this.props.personType.toLowerCase()}</Button>
+                                            onClick={() => this.removePerson(person)}>{"Remove " + this.props.personType.toLowerCase()}</Button>
 
                                     </Card.Body>
                                 </Accordion.Collapse>
