@@ -4,8 +4,7 @@ import 'bootswatch/dist/slate/bootstrap.min.css';
 
 import LoginPanel from "./components/LoginPanel"
 import ClassDisplay from "./components/ClassDisplay"
-import StudentDisplay from "./components/StudentDisplay"
-
+import PersonInfoDisplay from "./components/PersonInfoDisplay"
 import firebase from "./firebase"
 
 import Button from "react-bootstrap/Button"
@@ -35,7 +34,7 @@ class App extends Component {
   }
 
   // sets Firebase to state.data
-  setData = () => { 
+  setData = () => {
     Object.keys(this.state.data).map(userCategory => {
       // console.log(userCategory)
       // console.log(this.state.data[userCategory]);
@@ -62,8 +61,8 @@ class App extends Component {
         // return true;
       }
     })
-    if(!isAdmin){
-      this.setState({usersName: this.state.data.teachers[id].name})
+    if (!isAdmin) {
+      this.setState({ usersName: this.state.data.teachers[id].name })
     }
     // return false;
   }
@@ -122,9 +121,9 @@ class App extends Component {
     // this.loadData();
   }
   addStudent = (student) => {
-    let new_id=0;
-    Object.keys(this.state.data.students).map(id=>{
-      if(new_id < parseInt(id)){
+    let new_id = 0;
+    Object.keys(this.state.data.students).map(id => {
+      if (new_id < parseInt(id)) {
         new_id = parseInt(id) + 1;
       }
     })
@@ -147,12 +146,13 @@ class App extends Component {
             errorMSG={this.state.errorMSG}
             validLogin={this.state.validLogin} />
 
-          <StudentDisplay 
-          data={this.state.data}
-          removeStudent={this.removeStudent} 
-          addStudent={this.addStudent}
-          editStudent={this.editStudent}
-          isAdmin={this.state.isAdmin}/>
+          <PersonInfoDisplay
+            data={this.state.data}
+            removeStudent={this.removeStudent}
+            addStudent={this.addStudent}
+            editStudent={this.editStudent}
+            isAdmin={this.state.isAdmin} />
+
           <ClassDisplay
             data={this.state.data}
             classesRef={firebase.database().ref("data/classes")}
