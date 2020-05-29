@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-import EditStudentPanel from "./EditStudentPanel";
+import EditPanel from "./EditPanel";
 import { fieldFormatter, formatStudentData } from "../data";
 
 export default class StudentDisplay extends Component {
@@ -21,7 +21,9 @@ export default class StudentDisplay extends Component {
                 class: "",
                 grade: "",
                 GPA: "",
+                id: ""
             },
+            // editingID: null,
             creatingNewStudent: false // this shouldn't matter
         }
     }
@@ -37,7 +39,13 @@ export default class StudentDisplay extends Component {
     }
 
     submitChanges = () => {
+        if(this.state.creatingNewStudent){
         this.props.addStudent(this.state.editedStudent);
+        }
+        else{
+            this.props.editStudent(this.state.editedStudent)
+        }
+        this.closeModal();
     }
 
     openEditMenu = (student) => {
@@ -48,7 +56,7 @@ export default class StudentDisplay extends Component {
         // using temp to preserve order
         this.setState({
             editedStudent: temp,
-            creatingNewStudent: false
+            creatingNewStudent: false,
         },
             () => this.setState({ editingStudent: true }))
         // setting state editingStudent must be callback because these need to run in order
@@ -95,13 +103,14 @@ export default class StudentDisplay extends Component {
                 disabled={!(this.props.isAdmin)}>
                 Create new student
             </Button>
-            <EditStudentPanel
-                editingStudent={this.state.editingStudent}
+            <EditPanel
+                editing={this.state.editingStudent}
                 closeModal={this.closeModal}
-                editStudent={this.editStudent}
+                editObject={this.editStudent}
                 editedStudent={this.state.editedStudent}
                 submitChanges={this.submitChanges}
-                creatingNewStudent={this.state.creatingNewStudent} />
+                creatingNew={this.state.creatingNewStudent}
+                editedObjectType="Student" />
         </div>
     }
 }

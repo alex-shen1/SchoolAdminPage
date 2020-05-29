@@ -76,7 +76,6 @@ class App extends Component {
           console.log(id);
           this.checkUserIsAdmin(id);
         })
-        console.log("updated")
       }
     })
   }
@@ -134,10 +133,9 @@ class App extends Component {
     // this.loadData();
   }
 
-  // editStudent = (edited_student, id) => {
-  //   edited_student["id"] = id;
-  //   firebase.database().ref("data/students/" + id).set(edited_student)
-  // }
+  editStudent = (edited_student) => {
+    firebase.database().ref("data/students/" + edited_student.id).set(edited_student)
+  }
 
   render() {
     return (

@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 import { fieldFormatter } from "../data";
 
-export default class EditStudentPanel extends Component {
+export default class EditPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,9 +23,9 @@ export default class EditStudentPanel extends Component {
     render() {
         // console.log(fieldFormatter)
         return <div>
-            <Modal show={this.props.editingStudent} onHide={this.props.closeModal}>
+            <Modal show={this.props.editing} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title><h3>{this.props.creatingNewStudent ? "Create new student" : "Edit student information"}</h3></Modal.Title>
+                    <Modal.Title><h3>{(this.props.creatingNew ? "Create " : "Edit ") + this.props.editedObjectType}</h3></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -37,7 +37,7 @@ export default class EditStudentPanel extends Component {
                                         <Form.Control
                                         onChange={(e) => {
                                             // console.log(e.target.value);
-                                            this.props.editStudent(field, e.target.value)
+                                            this.props.editObject(field, e.target.value)
                                         }}
                                         type="textarea"
                                         placeholder={fieldFormatter[field]}
@@ -49,9 +49,8 @@ export default class EditStudentPanel extends Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={this.props.creatingNewStudent ? "info" : "success"} onClick={() => this.props.submitChanges()}>
-                        {/* {console.log(this.props.creatingNewStudent)} */}
-                        {this.props.creatingNewStudent ? "Create student" : "Edit student"}</Button>
+                    <Button variant="info" onClick={() => this.props.submitChanges()}>
+                        {this.props.creatingNew ? ("Create " + this.props.editedObjectType) : "Save changes"}</Button>
                     <Button variant="secondary" onClick={this.props.closeModal}>
                         Cancel
                         </Button>
