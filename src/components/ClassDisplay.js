@@ -19,13 +19,11 @@ export default class ClassDisplay extends Component {
                     let teacher = this.props.data.teachers[index];
                     if (!Object.keys(uniqueClasses).includes(teacher.class)) {
                         uniqueClasses[teacher.class] = {
-                            teachers: [teacher],
-                            students: []
+                            teachers: {},
+                            students: {}
                         };
                     }
-                    else {
-                        uniqueClasses[teacher.class].teachers.push(teacher)
-                    }
+                    uniqueClasses[teacher.class].teachers[teacher.id] = teacher;
                 })
             } catch (e) {
                 console.log("no teachers")
@@ -35,13 +33,11 @@ export default class ClassDisplay extends Component {
                     let student = this.props.data.students[index];
                     if (!Object.keys(uniqueClasses).includes(student.class)) {
                         uniqueClasses[student.class] = {
-                            teachers: [],
-                            students: [student]
+                            teachers: {},
+                            students: {}
                         };
                     }
-                    else {
-                        uniqueClasses[student.class].students.push(student)
-                    }
+                    uniqueClasses[student.class].students[student.id] = student;
                 })
             } catch (e) {
                 console.log("no students")
@@ -59,19 +55,24 @@ export default class ClassDisplay extends Component {
                     <Card.Body>
                         <Card.Title>{classID} </Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">Taught by:
-                        {" " + this.state.classes[classID].teachers.map(teacher => { return (teacher.firstName + " " + teacher.lastName + ", ") })}</Card.Subtitle>
+                        {" " + Object.keys(this.state.classes[classID].teachers).map(index => {
+                            let teacher = this.state.classes[classID].teachers[index];
+                            return (teacher.firstName + " " + teacher.lastName + ", ")
+                        })}</Card.Subtitle>
 
                         {/* TODO: figure out how to handle cases w/ 0 teachers */}
                         <Card.Text>
                             Students: <br />
-                            {this.state.classes[classID].students.map(student => { return (student.firstName + " " + student.lastName + ", ") })}
+                            {Object.keys(this.state.classes[classID].students).map(index => { 
+                                let student = this.state.classes[classID].students[index];
+                                return (student.firstName + " " + student.lastName + ", ") })}
                         </Card.Text>
 
                         <EditClassPanel
                             classID={classID}
                             editedClass={this.state.classes[classID]}
                             db={this.props.db}
-                            teachers={this.props.data != null ? this.props.data.teachers : null}/>
+                            teachers={this.props.data != null ? this.props.data.teachers : null} />
                     </Card.Body>
                 </Card>
             })}
