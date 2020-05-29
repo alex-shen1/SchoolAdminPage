@@ -6,9 +6,8 @@ export default class LoginPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "admin@admin.com", // default credentials; remove later
-            // username: "teacher@teacher.com",
-            password: "password",
+            username: "",
+            password: "",
         }
     }
 
@@ -21,8 +20,10 @@ export default class LoginPanel extends Component {
         this.props.handleLogin(this.state.username, this.state.password)        
     }
 
-    componentDidMount() { // temporary testing method
-        this.props.handleLogin(this.state.username, this.state.password) 
+    // temporary testing method; remove later
+    componentDidMount() { 
+        this.props.handleLogin("admin@admin.com", "password") 
+        // this.props.handleLogin("teacher@teacher.com", "password") 
     }
 
     render() {

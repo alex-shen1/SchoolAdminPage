@@ -52,23 +52,24 @@ class App extends Component {
   }
   checkUserIsAdmin = (id) => {
     let isAdmin = false;
-    try {Object.keys(this.state.data.admins).map(index => {
-      // console.log(admin)
-      let admin = this.state.data.admins[index]
-      if (admin.id.toString() === id.toString()) {
-        console.log("admin logged in found")
-        isAdmin = true;
-        this.setState({ isAdmin: true, usersName: (admin.firstName + " " + admin.lastName) })
-        // return true;
+    try {
+      Object.keys(this.state.data.admins).map(index => {
+        // console.log(admin)
+        let admin = this.state.data.admins[index]
+        if (admin.id.toString() === id.toString()) {
+          console.log("admin logged in found")
+          isAdmin = true;
+          this.setState({ isAdmin: true, usersName: (admin.firstName + " " + admin.lastName) })
+          // return true;
+        }
+      })
+      if (!isAdmin) {
+        let teacher = this.state.data.teachers[id];
+        this.setState({ usersName: teacher.firstName + " " + teacher.lastName })
       }
-    })
-    if (!isAdmin) {
-      let teacher = this.state.data.teachers[id];
-      this.setState({ usersName: teacher.firstName + " " + teacher.lastName })
+    } catch (e) {
+      console.log("no admins")
     }
-  }catch(e){
-    console.log("no admins")
-  }
     // return false;
   }
 
@@ -121,31 +122,12 @@ class App extends Component {
     // console.log(firebase.auth().currentUser)
   }
 
-  // removeStudent = (removed_student) => {
-  //   firebase.database().ref("data/students/" + removed_student.id).remove();
-  //   // this.loadData();
-  // }
-  // addStudent = (student) => {
-  //   let new_id = 0;
-  //   Object.keys(this.state.data.students).map(id => {
-  //     if (new_id < parseInt(id)) {
-  //       new_id = parseInt(id) + 1;
-  //     }
-  //   })
-  //   student["id"] = new_id;
-  //   firebase.database().ref("data/students/" + student.id).set(student)
-  //   // this.loadData();
-  // }
-  // editStudent = (edited_student) => {
-  //   firebase.database().ref("data/students/" + edited_student.id).set(edited_student)
-  // }
-
-
-
   render() {
     return (
       <div className="App">
-        Welcome, {this.state.usersName}
+        <div className="welcomeMessage">
+          Welcome, {this.state.usersName}
+        </div>
         <div className="info">
           <LoginPanel
             handleLogin={this.handleLogin}
@@ -154,14 +136,12 @@ class App extends Component {
 
           <InfoPanel
             data={this.state.data}
-            removeStudent={this.removeStudent}
-            addStudent={this.addStudent}
-            editStudent={this.editStudent}
             isAdmin={this.state.isAdmin}
             db={firebase.database()} />
 
           <ClassDisplay
             data={this.state.data}
+            db={firebase.database()}
             classesRef={firebase.database().ref("data/classes")}
           />
 

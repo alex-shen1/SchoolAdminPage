@@ -31,8 +31,6 @@ export default class ClassDisplay extends Component {
                 console.log("no teachers")
             }
             try {
-                // assume that students cannot be in a class with no teacher, but the
-                // app doesn't actually have error checking for this at the moment
                 Object.keys(this.props.data.students).map(index => {
                     let student = this.props.data.students[index];
                     if (!Object.keys(uniqueClasses).includes(student.class)) {

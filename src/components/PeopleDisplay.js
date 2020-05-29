@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 
 import EditPanel from "./EditPanel";
 
-import {studentTemplate, teacherTemplate} from "../data"
+import { studentTemplate, teacherTemplate } from "../data"
 
 export default class PeopleDisplay extends Component {
     constructor(props) {
@@ -111,11 +111,7 @@ export default class PeopleDisplay extends Component {
                         )
                     })}
             </Accordion>
-            <Button className="createPerson"
-                onClick={() => this.setState({ editingPerson: true, creatingNewPerson: true })}
-                disabled={!(this.props.isAdmin)}>
-                {"Create new " + this.props.personType.toLowerCase()}
-            </Button>
+
             <EditPanel
                 currentlyEditing={this.state.editingPerson}
                 closeModal={this.closeModal}
@@ -126,6 +122,14 @@ export default class PeopleDisplay extends Component {
                 editedObjectType={this.props.personType}
                 fieldFormatter={this.props.fieldFormatter}
                 db={this.props.db} />
+                
+            <div className="createPerson">
+                <Button
+                    onClick={() => this.setState({ editingPerson: true, creatingNewPerson: true })}
+                    disabled={!(this.props.isAdmin)}>
+                    {"Create new " + this.props.personType.toLowerCase()}
+                </Button>
+            </div>
         </div>
     }
 }
