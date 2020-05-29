@@ -14,8 +14,8 @@ export default class PeopleDisplay extends Component {
         super(props);
         this.state = {
             classes: {},
-            editingStudent: false,
-            editedStudent: {
+            editingPerson: false,
+            editedPerson: {
                 firstName: "",
                 lastName: "",
                 class: "",
@@ -24,40 +24,66 @@ export default class PeopleDisplay extends Component {
                 id: ""
             },
             // editingID: null,
-            creatingNewStudent: false // this shouldn't matter
+            creatingNewPerson: false // this shouldn't matter
         }
     }
-    closeModal = () => this.setState({ editingStudent: false })
+
+    removePerson = (removed_person) => {
+        let categoryPath = this.props.personType.toLowerCase() + "s/"
+        this.props.db.ref("data/" + categoryPath + removed_person.id).remove();
+    }
+    addPerson = (added_person) => {
+        if (this.props.personType == "Student") {
+            let new_id = 0;
+            Object.keys(this.props.people).map(id => {
+                if (new_id < parseInt(id)) {
+                    new_id = parseInt(id) + 1;
+                }
+            })
+            added_person["id"] = new_id;
+            this.props.db.ref("data/students/" + added_person.id).set(added_person)
+        }
+        // this.loadData();
+    }
+    editPerson = (edited_person) => {
+        let categoryPath = this.props.personType.toLowerCase() + "s/"
+        this.props.db.ref("data/students/" + edited_person.id).set(edited_person)
+    }
+
+
+    closeModal = () => this.setState({ editingPerson: false })
 
     editObject = (field, value) => {
-        let temp = this.state.editedStudent;
+        let temp = this.state.editedPerson;
         temp[field] = value;
-        this.setState({ editedStudent: temp })
+        this.setState({ editedPerson: temp })
         // console.log(field + " " + value);
     }
 
     submitChanges = () => {
-        if(this.state.creatingNewStudent){
-        this.props.addObject(this.state.editedStudent);
+        if (this.state.creatingNewPerson) {
+            // this.props.addObject(this.state.editedPerson);
+            this.addPerson(this.state.editedPerson)
         }
-        else{
-            this.props.editObject(this.state.editedStudent)
+        else {
+            this.editPerson(this.state.editedPerson)
+            // this.props.editObject(this.state.editedPerson)
         }
         this.closeModal();
     }
 
-    openEditMenu = (student) => {
-        let temp = this.state.editedStudent;
-        Object.keys(student).map(field => {
-            temp[field] = student[field]
+    openEditMenu = (person) => {
+        let temp = this.state.editedPerson;
+        Object.keys(person).map(field => {
+            temp[field] = person[field]
         })
         // using temp to preserve order
         this.setState({
-            editedStudent: temp,
-            creatingNewStudent: false,
+            editedPerson: temp,
+            creatingNewPerson: false,
         },
-            () => this.setState({ editingStudent: true }))
-        // setting state editingStudent must be callback because these need to run in order
+            () => this.setState({ editingPerson: true }))
+        // setting state editingPerson must be callback because these need to run in order
     }
     render() {
         let count = 0;
@@ -66,28 +92,28 @@ export default class PeopleDisplay extends Component {
             <Accordion >
                 {this.props.people != null && this.props.people != null &&
                     Object.keys(this.props.people).map(index => {
-                        let student = this.props.people[index];
+                        let person = this.props.people[index];
                         return (
                             <Card>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey={count + ""}>
-                                        {student.firstName + " " + student.lastName}
+                                        {person.firstName + " " + person.lastName}
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={count++ + ""}>
                                     <Card.Body>
-                                        {Object.keys(this.props.formatData(student)).map(field => {
+                                        {Object.keys(this.props.formatData(person)).map(field => {
                                             return <div>
-                                                {!["id","firstName","lastName"].includes(field) ? this.props.fieldFormatter[field] + ": " + (student)[field] + "\n" : ""}
+                                                {!["id", "firstName", "lastName"].includes(field) ? this.props.fieldFormatter[field] + ": " + (person)[field] + "\n" : ""}
                                             </div>
                                         })}
 
                                         <Button
                                             disabled={!(this.props.isAdmin)}
-                                            onClick={() => this.openEditMenu(student)}>{"Edit " + this.props.personType.toLowerCase()}</Button>
+                                            onClick={() => this.openEditMenu(person)}>{"Edit " + this.props.personType.toLowerCase()}</Button>
                                         <Button
                                             disabled={!(this.props.isAdmin)}
-                                            onClick={() => this.props.removeObject(student)}>{"Remove " + this.props.personType.toLowerCase()}</Button>
+                                            onClick={() => this.props.removeObject(person)}>{"Remove " + this.props.personType.toLowerCase()}</Button>
 
                                     </Card.Body>
                                 </Accordion.Collapse>
@@ -95,20 +121,21 @@ export default class PeopleDisplay extends Component {
                         )
                     })}
             </Accordion>
-            <Button className="createStudent"
-                onClick={() => this.setState({ editingStudent: true, creatingNewStudent: true })}
+            <Button className="createPerson"
+                onClick={() => this.setState({ editingPerson: true, creatingNewPerson: true })}
                 disabled={!(this.props.isAdmin)}>
                 {"Create new " + this.props.personType.toLowerCase()}
             </Button>
             <EditPanel
-                currentlyEditing={this.state.editingStudent}
+                currentlyEditing={this.state.editingPerson}
                 closeModal={this.closeModal}
                 editObject={this.editObject}
-                editedObject={this.state.editedStudent}
+                editedObject={this.state.editedPerson}
                 submitChanges={this.submitChanges}
-                creatingNew={this.state.creatingNewStudent}
-                editedObjectType={this.props.personType} 
-                fieldFormatter={this.props.fieldFormatter}/>
+                creatingNew={this.state.creatingNewPerson}
+                editedObjectType={this.props.personType}
+                fieldFormatter={this.props.fieldFormatter}
+                db={this.props.db} />
         </div>
     }
 }

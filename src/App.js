@@ -117,25 +117,26 @@ class App extends Component {
     // console.log(firebase.auth().currentUser)
   }
 
-  removeStudent = (removed_student) => {
-    firebase.database().ref("data/students/" + removed_student.id).remove();
-    // this.loadData();
-  }
-  addStudent = (student) => {
-    let new_id = 0;
-    Object.keys(this.state.data.students).map(id => {
-      if (new_id < parseInt(id)) {
-        new_id = parseInt(id) + 1;
-      }
-    })
-    student["id"] = new_id;
-    firebase.database().ref("data/students/" + student.id).set(student)
-    // this.loadData();
-  }
+  // removeStudent = (removed_student) => {
+  //   firebase.database().ref("data/students/" + removed_student.id).remove();
+  //   // this.loadData();
+  // }
+  // addStudent = (student) => {
+  //   let new_id = 0;
+  //   Object.keys(this.state.data.students).map(id => {
+  //     if (new_id < parseInt(id)) {
+  //       new_id = parseInt(id) + 1;
+  //     }
+  //   })
+  //   student["id"] = new_id;
+  //   firebase.database().ref("data/students/" + student.id).set(student)
+  //   // this.loadData();
+  // }
+  // editStudent = (edited_student) => {
+  //   firebase.database().ref("data/students/" + edited_student.id).set(edited_student)
+  // }
 
-  editStudent = (edited_student) => {
-    firebase.database().ref("data/students/" + edited_student.id).set(edited_student)
-  }
+
 
   render() {
     return (
@@ -152,7 +153,8 @@ class App extends Component {
             removeStudent={this.removeStudent}
             addStudent={this.addStudent}
             editStudent={this.editStudent}
-            isAdmin={this.state.isAdmin} />
+            isAdmin={this.state.isAdmin}
+            db={firebase.database()} />
 
           <ClassDisplay
             data={this.state.data}

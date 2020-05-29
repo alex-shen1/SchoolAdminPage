@@ -21,7 +21,8 @@ export default class InfoPanel extends Component {
                         isAdmin={this.props.isAdmin} 
                         formatData={formatStudentData}
                         fieldFormatter={studentFieldFormatter}
-                        personType="Student"/>
+                        personType="Student"
+                        db={this.props.db}/>
                 </Tab>
                 <Tab eventKey="teachers" title="Teachers">
                     <PeopleDisplay id="teacherDisplay"
@@ -33,6 +34,7 @@ export default class InfoPanel extends Component {
                         formatData={formatTeacherData}
                         fieldFormatter={teacherFieldFormatter}
                         personType="Teacher"
+                        db={this.props.db}
                     />
                 </Tab>
 
