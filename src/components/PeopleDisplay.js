@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 
 import EditPanel from "./EditPanel";
 
+import {studentTemplate, teacherTemplate} from "../data"
 
 export default class PeopleDisplay extends Component {
     constructor(props) {
@@ -15,14 +16,7 @@ export default class PeopleDisplay extends Component {
         this.state = {
             classes: {},
             editingPerson: false,
-            editedPerson: {
-                firstName: "",
-                lastName: "",
-                class: "",
-                grade: "",
-                GPA: "",
-                id: ""
-            },
+            editedPerson: {},
             creatingNewPerson: false // this shouldn't matter
         }
     }
@@ -69,7 +63,7 @@ export default class PeopleDisplay extends Component {
     }
 
     openEditMenu = (person) => {
-        let temp = this.state.editedPerson;
+        let temp = this.props.personType == "Student" ? studentTemplate : teacherTemplate;
         Object.keys(person).map(field => {
             temp[field] = person[field]
         })

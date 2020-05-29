@@ -36,6 +36,7 @@ const testingData = {
   ],
 }
 
+// converts field names into capitalized strings for pretty display
 export const studentFieldFormatter = {
   firstName: "First Name",
   lastName: "Last Name",
@@ -45,6 +46,14 @@ export const studentFieldFormatter = {
   GPA: "GPA",
 }
 
+export const teacherFieldFormatter = {
+  firstName: "First Name",
+  lastName: "Last Name",
+  class: "Class"
+}
+
+
+// formats student/teacher data into correct order of fields
 export const formatStudentData = (student) => {
   let template = {
     class: "",
@@ -59,12 +68,6 @@ export const formatStudentData = (student) => {
   return template;
 }
 
-export const teacherFieldFormatter = {
-  firstName: "First Name",
-  lastName: "Last Name",
-  class: "Class"
-}
-
 export const formatTeacherData = (teacher) => {
   let template = {
     class: "",
@@ -75,6 +78,24 @@ export const formatTeacherData = (teacher) => {
     }
   })
   return template;
+}
+
+// these templates are necessary for formatting; by default the fields will be sorted alphabetically
+// this might actually be redundant given formatStudentData but I'm not going to risk breaking it to find out now
+export const studentTemplate = {
+  firstName: "",
+  lastName: "",
+  class: "",
+  grade: "",
+  GPA: "",
+  id: ""
+}
+
+export const teacherTemplate = {
+  firstName: "",
+  lastName: "",
+  class: "",
+  id: ""
 }
 
 
