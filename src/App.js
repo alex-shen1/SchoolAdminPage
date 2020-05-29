@@ -134,7 +134,7 @@ class App extends Component {
               db={firebase.database()}
             />
           </div>
-          <Button onClick={this.resetData} disabled={this.state.isAdmin}>RESET DATABASE (delete later)</Button></div> :
+          <Button onClick={this.resetData}>RESET DATABASE (delete later)</Button></div> :
           <LoginPanel
             handleLogin={this.handleLogin}
             errorMSG={this.state.errorMSG}
