@@ -84,10 +84,10 @@ export default class PeopleDisplay extends Component {
 
                                         <Button
                                             disabled={!(this.props.isAdmin)}
-                                            onClick={() => this.openEditMenu(student)}>Edit student</Button>
+                                            onClick={() => this.openEditMenu(student)}>{"Edit " + this.props.personType.toLowerCase()}</Button>
                                         <Button
                                             disabled={!(this.props.isAdmin)}
-                                            onClick={() => this.props.removeObject(student)}>Remove student</Button>
+                                            onClick={() => this.props.removeObject(student)}>{"Remove " + this.props.personType.toLowerCase()}</Button>
 
                                     </Card.Body>
                                 </Accordion.Collapse>
@@ -98,7 +98,7 @@ export default class PeopleDisplay extends Component {
             <Button className="createStudent"
                 onClick={() => this.setState({ editingStudent: true, creatingNewStudent: true })}
                 disabled={!(this.props.isAdmin)}>
-                Create new student
+                {"Create new " + this.props.personType.toLowerCase()}
             </Button>
             <EditPanel
                 currentlyEditing={this.state.editingStudent}
@@ -107,7 +107,7 @@ export default class PeopleDisplay extends Component {
                 editedObject={this.state.editedStudent}
                 submitChanges={this.submitChanges}
                 creatingNew={this.state.creatingNewStudent}
-                editedObjectType="Student" 
+                editedObjectType={this.props.personType} 
                 fieldFormatter={this.props.fieldFormatter}/>
         </div>
     }

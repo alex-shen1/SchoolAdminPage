@@ -20,7 +20,8 @@ export default class InfoPanel extends Component {
                         editObject={this.props.editStudent}
                         isAdmin={this.props.isAdmin} 
                         formatData={formatStudentData}
-                        fieldFormatter={studentFieldFormatter}/>
+                        fieldFormatter={studentFieldFormatter}
+                        personType="Student"/>
                 </Tab>
                 <Tab eventKey="teachers" title="Teachers">
                     <PeopleDisplay id="teacherDisplay"
@@ -31,6 +32,7 @@ export default class InfoPanel extends Component {
                         isAdmin={this.props.isAdmin} 
                         formatData={formatTeacherData}
                         fieldFormatter={teacherFieldFormatter}
+                        personType="Teacher"
                     />
                 </Tab>
 

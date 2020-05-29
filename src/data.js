@@ -60,7 +60,8 @@ export const formatStudentData = (student) => {
 }
 
 export const teacherFieldFormatter = {
-  name: "Name",
+  firstName: "First Name",
+  lastName: "Last Name",
   class: "Class"
 }
 
