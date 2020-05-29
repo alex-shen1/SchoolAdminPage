@@ -36,7 +36,7 @@ export default class EditStudentPanel extends Component {
                                         <Form.Label>{fieldFormatter[field]}</Form.Label>
                                         <Form.Control
                                         onChange={(e) => {
-                                            console.log(e.target.value);
+                                            // console.log(e.target.value);
                                             this.props.editStudent(field, e.target.value)
                                         }}
                                         type="textarea"

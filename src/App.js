@@ -69,13 +69,14 @@ class App extends Component {
   }
 
   loadData = () => {
-    firebase.database().ref("data").once("value", snapshot => {
+    firebase.database().ref("data").on("value", snapshot => {
       if (snapshot && snapshot.exists()) {
         this.setState({ data: snapshot.val() }, () => {
           let id = firebase.auth().currentUser.uid;
           console.log(id);
           this.checkUserIsAdmin(id);
         })
+        console.log("updated")
       }
     })
   }
@@ -119,7 +120,7 @@ class App extends Component {
 
   removeStudent = (removed_student) => {
     firebase.database().ref("data/students/" + removed_student.id).remove();
-    this.loadData();
+    // this.loadData();
   }
   addStudent = (student) => {
     let new_id=0;
@@ -130,7 +131,7 @@ class App extends Component {
     })
     student["id"] = new_id;
     firebase.database().ref("data/students/" + student.id).set(student)
-    this.loadData();
+    // this.loadData();
   }
 
   // editStudent = (edited_student, id) => {
