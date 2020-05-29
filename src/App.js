@@ -115,27 +115,31 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="welcomeMessage">
+        {/* {this.state.validLogin ? */}
+        {this.state.validLogin ? <div> <div className="welcomeMessage">
           Welcome, {this.state.usersName}
         </div>
-        <div className="info">
+          <div className="info">
+
+
+            <InfoPanel
+              data={this.state.data}
+              isAdmin={this.state.isAdmin}
+              db={firebase.database()} />
+
+            <ClassDisplay
+              data={this.state.data}
+              validLogin={this.state.validLogin}
+              isAdmin={this.state.isAdmin}
+              db={firebase.database()}
+            />
+          </div>
+          <Button onClick={this.resetData} disabled={this.state.isAdmin}>RESET DATABASE (delete later)</Button></div> :
           <LoginPanel
             handleLogin={this.handleLogin}
             errorMSG={this.state.errorMSG}
-            validLogin={this.state.validLogin} />
+            validLogin={this.state.validLogin} />}
 
-          <InfoPanel
-            data={this.state.data}
-            isAdmin={this.state.isAdmin}
-            db={firebase.database()} />
-
-          <ClassDisplay
-            data={this.state.data}
-            db={firebase.database()}
-          />
-
-        </div>
-        <Button onClick={this.resetData}>RESET DATABASE (delete later)</Button>
       </div>
     );
   }

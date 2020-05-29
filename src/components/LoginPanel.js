@@ -21,10 +21,10 @@ export default class LoginPanel extends Component {
     }
 
     // temporary testing method; remove later
-    componentDidMount() { 
-        this.props.handleLogin("admin@admin.com", "password") 
-        // this.props.handleLogin("teacher@teacher.com", "password") 
-    }
+    // componentDidMount() { 
+    //     this.props.handleLogin("admin@admin.com", "password") 
+    //     // this.props.handleLogin("teacher@teacher.com", "password") 
+    // }
 
     render() {
         return <div>
@@ -44,9 +44,11 @@ export default class LoginPanel extends Component {
                                 <br/>
                             <Form.Control
                                 onChange={(e) => this.setState({ password: e.target.value })}
+                                as="input"
+                                type="password"
                                 id="SearchText"
                                 className="SearchBar"
-                                type="textarea"
+                                // type="textarea"
                                 placeholder="Password" />
                         </Form.Group>
                     </Form>

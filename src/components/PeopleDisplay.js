@@ -34,6 +34,7 @@ export default class PeopleDisplay extends Component {
                 }
             })
             added_person["id"] = new_id;
+            console.log(added_person);
             this.props.db.ref("data/students/" + added_person.id).set(added_person)
         }
     }
@@ -42,7 +43,7 @@ export default class PeopleDisplay extends Component {
         this.props.db.ref("data/" + categoryPath + edited_person.id).set(edited_person)
     }
 
-    closeModal = () => this.setState({ editingPerson: false })
+    closeModal = () => this.setState({ editingPerson: false, editedPerson: {} })
 
     editField = (field, value) => {
         let temp = this.state.editedPerson;
