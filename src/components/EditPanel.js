@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-import { fieldFormatter } from "../data";
+// import { this.props.fieldFormatter } from "../data";
 
 export default class EditPanel extends Component {
     constructor(props) {
@@ -14,9 +14,9 @@ export default class EditPanel extends Component {
     // could turn this into functional component later but don't feel like doing it now
 
     render() {
-        // console.log(fieldFormatter)
+        // console.log(this.props.this.props.fieldFormatter)
         return <div>
-            <Modal show={this.props.editing} onHide={this.props.closeModal}>
+            <Modal show={this.props.currentlyEditing} onHide={this.props.closeModal}>
                 <Modal.Header closeButton>
                     <Modal.Title><h3>{(this.props.creatingNew ? "Create " : "Edit ") + this.props.editedObjectType}</h3></Modal.Title>
                 </Modal.Header>
@@ -26,14 +26,14 @@ export default class EditPanel extends Component {
                             {Object.keys(this.props.editedObject).map(field => {
                                 if (field != "id") {
                                     return <div>
-                                        <Form.Label>{fieldFormatter[field]}</Form.Label>
+                                        <Form.Label>{this.props.fieldFormatter[field]}</Form.Label>
                                         <Form.Control
                                         onChange={(e) => {
                                             // console.log(e.target.value);
                                             this.props.editObject(field, e.target.value)
                                         }}
                                         type="textarea"
-                                        placeholder={fieldFormatter[field]}
+                                        placeholder={this.props.fieldFormatter[field]}
                                         value={this.props.editedObject[field]} /> <br />
                                     </div>
                                 }

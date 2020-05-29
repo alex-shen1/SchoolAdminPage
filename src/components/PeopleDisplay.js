@@ -7,9 +7,9 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
 import EditPanel from "./EditPanel";
-import { fieldFormatter, formatStudentData } from "../data";
 
-export default class StudentDisplay extends Component {
+
+export default class PeopleDisplay extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,23 +27,21 @@ export default class StudentDisplay extends Component {
             creatingNewStudent: false // this shouldn't matter
         }
     }
-    closeModal = () => {
-        this.setState({ editingStudent: false })
-    }
+    closeModal = () => this.setState({ editingStudent: false })
 
-    editStudent = (field, value) => {
+    editObject = (field, value) => {
         let temp = this.state.editedStudent;
         temp[field] = value;
-        this.setState({ student: temp })
+        this.setState({ editedStudent: temp })
         // console.log(field + " " + value);
     }
 
     submitChanges = () => {
         if(this.state.creatingNewStudent){
-        this.props.addStudent(this.state.editedStudent);
+        this.props.addObject(this.state.editedStudent);
         }
         else{
-            this.props.editStudent(this.state.editedStudent)
+            this.props.editObject(this.state.editedStudent)
         }
         this.closeModal();
     }
@@ -63,11 +61,12 @@ export default class StudentDisplay extends Component {
     }
     render() {
         let count = 0;
+        // console.log(typeof this.props.formatData)
         return <div className="people">
             <Accordion >
-                {this.props.data != null && this.props.data.students != null &&
-                    Object.keys(this.props.data.students).map(index => {
-                        let student = this.props.data.students[index];
+                {this.props.people != null && this.props.people != null &&
+                    Object.keys(this.props.people).map(index => {
+                        let student = this.props.people[index];
                         return (
                             <Card>
                                 <Card.Header>
@@ -77,10 +76,9 @@ export default class StudentDisplay extends Component {
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={count++ + ""}>
                                     <Card.Body>
-                                        {Object.keys(formatStudentData(student)).map(field => {
-                                            // console.log(fieldFormatter);
+                                        {Object.keys(this.props.formatData(student)).map(field => {
                                             return <div>
-                                                {!["id","firstName","lastName"].includes(field) ? fieldFormatter[field] + ": " + (student)[field] + "\n" : ""}
+                                                {!["id","firstName","lastName"].includes(field) ? this.props.fieldFormatter[field] + ": " + (student)[field] + "\n" : ""}
                                             </div>
                                         })}
 
@@ -89,7 +87,7 @@ export default class StudentDisplay extends Component {
                                             onClick={() => this.openEditMenu(student)}>Edit student</Button>
                                         <Button
                                             disabled={!(this.props.isAdmin)}
-                                            onClick={() => this.props.removeStudent(student)}>Remove student</Button>
+                                            onClick={() => this.props.removeObject(student)}>Remove student</Button>
 
                                     </Card.Body>
                                 </Accordion.Collapse>
@@ -103,13 +101,14 @@ export default class StudentDisplay extends Component {
                 Create new student
             </Button>
             <EditPanel
-                editing={this.state.editingStudent}
+                currentlyEditing={this.state.editingStudent}
                 closeModal={this.closeModal}
-                editObject={this.editStudent}
+                editObject={this.editObject}
                 editedObject={this.state.editedStudent}
                 submitChanges={this.submitChanges}
                 creatingNew={this.state.creatingNewStudent}
-                editedObjectType="Student" />
+                editedObjectType="Student" 
+                fieldFormatter={this.props.fieldFormatter}/>
         </div>
     }
 }

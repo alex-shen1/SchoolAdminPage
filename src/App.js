@@ -4,7 +4,7 @@ import 'bootswatch/dist/slate/bootstrap.min.css';
 
 import LoginPanel from "./components/LoginPanel"
 import ClassDisplay from "./components/ClassDisplay"
-import PersonInfoDisplay from "./components/PersonInfoDisplay"
+import InfoPanel from "./components/InfoPanel"
 import firebase from "./firebase"
 
 import Button from "react-bootstrap/Button"
@@ -57,12 +57,13 @@ class App extends Component {
       if (admin.id.toString() === id.toString()) {
         console.log("admin logged in found")
         isAdmin = true;
-        this.setState({ isAdmin: true, usersName: admin.name })
+        this.setState({ isAdmin: true, usersName: (admin.firstName + " " + admin.lastName) })
         // return true;
       }
     })
     if (!isAdmin) {
-      this.setState({ usersName: this.state.data.teachers[id].name })
+      let teacher = this.state.data.teachers[id];
+      this.setState({ usersName: teacher.firstName + " " + teacher.lastName })
     }
     // return false;
   }
@@ -146,7 +147,7 @@ class App extends Component {
             errorMSG={this.state.errorMSG}
             validLogin={this.state.validLogin} />
 
-          <PersonInfoDisplay
+          <InfoPanel
             data={this.state.data}
             removeStudent={this.removeStudent}
             addStudent={this.addStudent}

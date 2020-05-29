@@ -58,7 +58,7 @@ export default class ClassDisplay extends Component {
                     <Card.Body>
                         <Card.Title>{classID} </Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">Taught by: 
-                        {" " + this.state.classes[classID].teachers.map(teacher => { return (teacher.name + ", ")})}</Card.Subtitle>
+                        {" " + this.state.classes[classID].teachers.map(teacher => { return (teacher.firstName + " " + teacher.lastName + ", ")})}</Card.Subtitle>
 
                         {/* TODO: figure out how to handle cases w/ 0 teachers */}
                         <Card.Text>
