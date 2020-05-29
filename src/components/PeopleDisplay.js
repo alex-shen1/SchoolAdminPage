@@ -28,14 +28,22 @@ export default class PeopleDisplay extends Component {
     addPerson = (added_person) => {
         if (this.props.personType == "Student") {
             let new_id = 0;
-            Object.keys(this.props.people).map(id => {
-                if (new_id < parseInt(id)) {
-                    new_id = parseInt(id) + 1;
-                }
-            })
+            if (this.props.people == null) {
+                added_person["id"] = 1;
+            }
+            else {
+                Object.keys(this.props.people).map(id => {
+                    if (new_id < parseInt(id)) {
+                        new_id = parseInt(id) + 1;
+                    }
+                })
+            }
             added_person["id"] = new_id;
             console.log(added_person);
             this.props.db.ref("data/students/" + added_person.id).set(added_person)
+        }
+        else{
+            // TODO: handle teacher account creation (more complex; needs to set up user auth)
         }
     }
     insertEditedPerson = (edited_person) => {

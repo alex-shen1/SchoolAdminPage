@@ -53,7 +53,7 @@ export default class ClassDisplay extends Component {
                     } catch (e) {
                         console.log("no students")
                     }
-                    // this.setState({ classes: uniqueClasses });
+                    this.setState({ classes: uniqueClasses });
                     this.props.db.ref("data/classes").set(uniqueClasses);
                 }
             }
@@ -72,16 +72,15 @@ export default class ClassDisplay extends Component {
                     <Card.Body>
                         <Card.Title>{classID} </Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">Taught by:
-                        {this.state.classes[classID].teachers !== undefined ? " " + Object.values(this.state.classes[classID].teachers).map(teacher => {
+                        {this.state.classes[classID].teachers !== undefined ? Object.values(this.state.classes[classID].teachers).map(teacher => {
                             return " " + (teacher.firstName + " " + teacher.lastName)
                         }) : " no one"}</Card.Subtitle>
 
-                        {/* TODO: figure out how to handle cases w/ 0 teachers */}
                         <Card.Text>
                             Students: <br />
-                            {Object.values(this.state.classes[classID].students).map(student => {
+                            {this.state.classes[classID].students !== undefined ? Object.values(this.state.classes[classID].students).map(student => {
                                 return (" " + student.firstName + " " + student.lastName)
-                            })}
+                            }) : ""}
                         </Card.Text>
                         <Button disabled={!this.props.isAdmin} onClick={() => { console.log("changing"); this.setState({ editedClass: this.state.classes[classID], editClassName: classID }) }}>Edit class</Button>
                     </Card.Body>
