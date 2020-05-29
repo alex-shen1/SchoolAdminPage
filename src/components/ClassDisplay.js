@@ -47,7 +47,7 @@ export default class ClassDisplay extends Component {
                 console.log("no students")
             }
             this.setState({ classes: uniqueClasses });
-            this.props.classesRef.set(uniqueClasses);
+            this.props.db.ref("data/classes").set(uniqueClasses);
         }
     }
 
@@ -69,7 +69,9 @@ export default class ClassDisplay extends Component {
 
                         <EditClassPanel
                             classID={classID}
-                            classesRef={this.props.classesRef} />
+                            editedClass={this.state.classes[classID]}
+                            db={this.props.db}
+                            teachers={this.props.data != null ? this.props.data.teachers : null}/>
                     </Card.Body>
                 </Card>
             })}

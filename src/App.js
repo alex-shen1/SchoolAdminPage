@@ -30,26 +30,16 @@ class App extends Component {
     firebase.database().ref("data").remove();
     this.setState({ data: testingData },
       () => {
-        this.setData();
+        Object.keys(this.state.data).map(userCategory => {
+          this.state.data[userCategory].map(entry => {
+            let DB_ref = firebase.database().ref("data/" + userCategory + "/" + entry.id)
+            DB_ref.set(entry)
+          })
+          // }
+        })
       })
   }
 
-  // sets Firebase to state.data
-  setData = () => {
-    Object.keys(this.state.data).map(userCategory => {
-      // console.log(userCategory)
-      // console.log(this.state.data[userCategory]);
-      // if (userCategory == "admins") {
-      //   firebase.database().ref("admins").set(this.state.data["admins"])
-      // }
-      // else {
-      this.state.data[userCategory].map(entry => {
-        let DB_ref = firebase.database().ref("data/" + userCategory + "/" + entry.id)
-        DB_ref.set(entry)
-      })
-      // }
-    })
-  }
   checkUserIsAdmin = (id) => {
     let isAdmin = false;
     try {
@@ -57,7 +47,7 @@ class App extends Component {
         // console.log(admin)
         let admin = this.state.data.admins[index]
         if (admin.id.toString() === id.toString()) {
-          console.log("admin logged in found")
+          console.log("admin logged in")
           isAdmin = true;
           this.setState({ isAdmin: true, usersName: (admin.firstName + " " + admin.lastName) })
           // return true;
@@ -78,7 +68,7 @@ class App extends Component {
       if (snapshot && snapshot.exists()) {
         this.setState({ data: snapshot.val() }, () => {
           let id = firebase.auth().currentUser.uid;
-          console.log(id);
+          // console.log(id);
           this.checkUserIsAdmin(id);
         })
       }
@@ -142,7 +132,6 @@ class App extends Component {
           <ClassDisplay
             data={this.state.data}
             db={firebase.database()}
-            classesRef={firebase.database().ref("data/classes")}
           />
 
         </div>
