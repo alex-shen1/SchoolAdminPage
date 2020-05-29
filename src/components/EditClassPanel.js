@@ -44,7 +44,7 @@ export default class EditClassPanel extends Component {
                                     custom
                                     type="checkbox"
                                     id={`custom-checkbox-${index}`} // functionally equivalent to setting to teacherID
-                                    // checked={this.props.editedClass.teachers.contains}
+                                    checked={Object.keys(this.props.editedClass.teachers).includes(index)}
                                     // id="default-checkbox"
                                     label={teacher.firstName + " " + teacher.lastName}
                                 />
