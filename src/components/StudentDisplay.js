@@ -107,7 +107,7 @@ export default class StudentDisplay extends Component {
                 editing={this.state.editingStudent}
                 closeModal={this.closeModal}
                 editObject={this.editStudent}
-                editedStudent={this.state.editedStudent}
+                editedObject={this.state.editedStudent}
                 submitChanges={this.submitChanges}
                 creatingNew={this.state.creatingNewStudent}
                 editedObjectType="Student" />

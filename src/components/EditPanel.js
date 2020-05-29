@@ -9,16 +9,9 @@ import { fieldFormatter } from "../data";
 export default class EditPanel extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            // student: {
-            //     "First Name": "",
-            //     "Last Name": "",
-            //     "Grade": "",
-            //     "GPA": ""
-            // },
-            modalActive: false
-        }
     }
+
+    // could turn this into functional component later but don't feel like doing it now
 
     render() {
         // console.log(fieldFormatter)
@@ -30,7 +23,7 @@ export default class EditPanel extends Component {
                 <Modal.Body>
                     <Form>
                         <Form.Group>
-                            {Object.keys(this.props.editedStudent).map(field => {
+                            {Object.keys(this.props.editedObject).map(field => {
                                 if (field != "id") {
                                     return <div>
                                         <Form.Label>{fieldFormatter[field]}</Form.Label>
@@ -41,7 +34,7 @@ export default class EditPanel extends Component {
                                         }}
                                         type="textarea"
                                         placeholder={fieldFormatter[field]}
-                                        value={this.props.editedStudent[field]} /> <br />
+                                        value={this.props.editedObject[field]} /> <br />
                                     </div>
                                 }
                             })}
