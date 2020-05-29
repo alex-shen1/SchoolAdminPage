@@ -4,8 +4,7 @@ import 'bootswatch/dist/slate/bootstrap.min.css';
 
 import LoginPanel from "./components/LoginPanel"
 import ClassDisplay from "./components/ClassDisplay"
-import StudentDisplay from "./components/StudentDisplay"
-
+import InfoPanel from "./components/InfoPanel"
 import firebase from "./firebase"
 
 import Button from "react-bootstrap/Button"
@@ -28,6 +27,7 @@ class App extends Component {
 
   // resets Firebase data to testingData
   resetData = () => {
+    firebase.database().ref("data").remove();
     this.setState({ data: testingData },
       () => {
         this.setData();
@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   // sets Firebase to state.data
-  setData = () => { 
+  setData = () => {
     Object.keys(this.state.data).map(userCategory => {
       // console.log(userCategory)
       // console.log(this.state.data[userCategory]);
@@ -52,24 +52,28 @@ class App extends Component {
   }
   checkUserIsAdmin = (id) => {
     let isAdmin = false;
-    Object.keys(this.state.data.admins).map(index => {
+    try {Object.keys(this.state.data.admins).map(index => {
       // console.log(admin)
       let admin = this.state.data.admins[index]
       if (admin.id.toString() === id.toString()) {
         console.log("admin logged in found")
         isAdmin = true;
-        this.setState({ isAdmin: true, usersName: admin.name })
+        this.setState({ isAdmin: true, usersName: (admin.firstName + " " + admin.lastName) })
         // return true;
       }
     })
-    if(!isAdmin){
-      this.setState({usersName: this.state.data.teachers[id].name})
+    if (!isAdmin) {
+      let teacher = this.state.data.teachers[id];
+      this.setState({ usersName: teacher.firstName + " " + teacher.lastName })
     }
+  }catch(e){
+    console.log("no admins")
+  }
     // return false;
   }
 
   loadData = () => {
-    firebase.database().ref("data").once("value", snapshot => {
+    firebase.database().ref("data").on("value", snapshot => {
       if (snapshot && snapshot.exists()) {
         this.setState({ data: snapshot.val() }, () => {
           let id = firebase.auth().currentUser.uid;
@@ -117,26 +121,26 @@ class App extends Component {
     // console.log(firebase.auth().currentUser)
   }
 
-  removeStudent = (removed_student) => {
-    firebase.database().ref("data/students/" + removed_student.id).remove();
-    this.loadData();
-  }
-  addStudent = (student) => {
-    let new_id=0;
-    Object.keys(this.state.data.students).map(id=>{
-      if(new_id < parseInt(id)){
-        new_id = parseInt(id) + 1;
-      }
-    })
-    student["id"] = new_id;
-    firebase.database().ref("data/students/" + student.id).set(student)
-    this.loadData();
-  }
-
-  // editStudent = (edited_student, id) => {
-  //   edited_student["id"] = id;
-  //   firebase.database().ref("data/students/" + id).set(edited_student)
+  // removeStudent = (removed_student) => {
+  //   firebase.database().ref("data/students/" + removed_student.id).remove();
+  //   // this.loadData();
   // }
+  // addStudent = (student) => {
+  //   let new_id = 0;
+  //   Object.keys(this.state.data.students).map(id => {
+  //     if (new_id < parseInt(id)) {
+  //       new_id = parseInt(id) + 1;
+  //     }
+  //   })
+  //   student["id"] = new_id;
+  //   firebase.database().ref("data/students/" + student.id).set(student)
+  //   // this.loadData();
+  // }
+  // editStudent = (edited_student) => {
+  //   firebase.database().ref("data/students/" + edited_student.id).set(edited_student)
+  // }
+
+
 
   render() {
     return (
@@ -148,12 +152,14 @@ class App extends Component {
             errorMSG={this.state.errorMSG}
             validLogin={this.state.validLogin} />
 
-          <StudentDisplay 
-          data={this.state.data}
-          removeStudent={this.removeStudent} 
-          addStudent={this.addStudent}
-          editStudent={this.editStudent}
-          isAdmin={this.state.isAdmin}/>
+          <InfoPanel
+            data={this.state.data}
+            removeStudent={this.removeStudent}
+            addStudent={this.addStudent}
+            editStudent={this.editStudent}
+            isAdmin={this.state.isAdmin}
+            db={firebase.database()} />
+
           <ClassDisplay
             data={this.state.data}
             classesRef={firebase.database().ref("data/classes")}

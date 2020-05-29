@@ -1,15 +1,18 @@
 const testingData = {
   admins: [{
-    name: "Mister Admin",
+    firstName: "Mister",
+    lastName: "Admin",
     id: "CDZaxVJThgTf3mEMJMjuyP8IVeW2" // admin@admin.com
   }], //
   teachers: [{
-    name: "Mister Teacher",
+    firstName: "Mister",
+    lastName: "Teacher",
     class: "Class 100",
     id: "tz9ehdvIDmRIF2IDHpv3XcMrznw2" // just teacher@teacher.com
   },
   {
-    name: "Miss Teacher",
+    firstName: "Miss",
+    lastName: "Teacher",
     class: "Class 200",
     id: "mZoHc5O4DTdFTMBo1Ax31Bq8PRv2" // teacher2@teacher.com
   }],
@@ -33,7 +36,7 @@ const testingData = {
   ],
 }
 
-export const fieldFormatter = {
+export const studentFieldFormatter = {
   firstName: "First Name",
   lastName: "Last Name",
   name: "Name",
@@ -42,7 +45,7 @@ export const fieldFormatter = {
   GPA: "GPA",
 }
 
-export function formatStudentData(student) {
+export const formatStudentData = (student) => {
   let template = {
     class: "",
     grade: "",
@@ -51,6 +54,24 @@ export function formatStudentData(student) {
   Object.keys(template).map(field => {
     if (field != "name") {
       template[field] = student[field]
+    }
+  })
+  return template;
+}
+
+export const teacherFieldFormatter = {
+  firstName: "First Name",
+  lastName: "Last Name",
+  class: "Class"
+}
+
+export const formatTeacherData = (teacher) => {
+  let template = {
+    class: "",
+  }
+  Object.keys(template).map(field => {
+    if (field != "name") {
+      template[field] = teacher[field]
     }
   })
   return template;
