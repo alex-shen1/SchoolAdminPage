@@ -63,8 +63,7 @@ export default class StudentDisplay extends Component {
     }
     render() {
         let count = 0;
-        return <div className="students">
-            <h1>Students</h1>
+        return <div className="people">
             <Accordion >
                 {this.props.data != null && this.props.data.students != null &&
                     Object.keys(this.props.data.students).map(index => {
