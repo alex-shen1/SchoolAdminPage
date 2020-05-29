@@ -43,14 +43,14 @@ export default class PeopleDisplay extends Component {
             this.props.db.ref("data/students/" + added_person.id).set(added_person)
         }
     }
-    editPerson = (edited_person) => {
+    insertEditedPerson = (edited_person) => {
         let categoryPath = this.props.personType.toLowerCase() + "s/"
         this.props.db.ref("data/" + categoryPath + edited_person.id).set(edited_person)
     }
 
     closeModal = () => this.setState({ editingPerson: false })
 
-    editObject = (field, value) => {
+    editField = (field, value) => {
         let temp = this.state.editedPerson;
         temp[field] = value;
         this.setState({ editedPerson: temp })
@@ -62,8 +62,8 @@ export default class PeopleDisplay extends Component {
             this.addPerson(this.state.editedPerson)
         }
         else {
-            this.editPerson(this.state.editedPerson)
-            // this.props.editObject(this.state.editedPerson)
+            this.insertEditedPerson(this.state.editedPerson)
+            // this.props.editField(this.state.editedPerson)
         }
         this.closeModal();
     }
@@ -125,7 +125,7 @@ export default class PeopleDisplay extends Component {
             <EditPanel
                 currentlyEditing={this.state.editingPerson}
                 closeModal={this.closeModal}
-                editObject={this.editObject}
+                editField={this.editField}
                 editedObject={this.state.editedPerson}
                 submitChanges={this.submitChanges}
                 creatingNew={this.state.creatingNewPerson}

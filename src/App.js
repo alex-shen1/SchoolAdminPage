@@ -27,6 +27,7 @@ class App extends Component {
 
   // resets Firebase data to testingData
   resetData = () => {
+    firebase.database().ref("data").remove();
     this.setState({ data: testingData },
       () => {
         this.setData();
@@ -51,7 +52,7 @@ class App extends Component {
   }
   checkUserIsAdmin = (id) => {
     let isAdmin = false;
-    Object.keys(this.state.data.admins).map(index => {
+    try {Object.keys(this.state.data.admins).map(index => {
       // console.log(admin)
       let admin = this.state.data.admins[index]
       if (admin.id.toString() === id.toString()) {
@@ -65,6 +66,9 @@ class App extends Component {
       let teacher = this.state.data.teachers[id];
       this.setState({ usersName: teacher.firstName + " " + teacher.lastName })
     }
+  }catch(e){
+    console.log("no admins")
+  }
     // return false;
   }
 

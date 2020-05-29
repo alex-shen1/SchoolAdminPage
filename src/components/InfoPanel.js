@@ -12,7 +12,7 @@ export default class InfoPanel extends Component {
         return <div>
                         <h1>People</h1>
             <Tabs defaultActiveKey="students">
-                <Tab eventKey="students" title="Students">
+                <Tab eventKey="students" title="Students" className="tab">
                     <PeopleDisplay id="studentDisplay"
                         people={this.props.data != null ? this.props.data.students : null}
                         removeObject={this.props.removeStudent}
@@ -24,7 +24,7 @@ export default class InfoPanel extends Component {
                         personType="Student"
                         db={this.props.db}/>
                 </Tab>
-                <Tab eventKey="teachers" title="Teachers">
+                <Tab eventKey="teachers" title="Teachers" className="tab">
                     <PeopleDisplay id="teacherDisplay"
                         people={this.props.data != null ? this.props.data.teachers : null}
                         removeObject={this.props.removeStudent}

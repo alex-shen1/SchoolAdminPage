@@ -30,7 +30,7 @@ export default class EditPanel extends Component {
                                         <Form.Control
                                         onChange={(e) => {
                                             // console.log(e.target.value);
-                                            this.props.editObject(field, e.target.value)
+                                            this.props.editField(field, e.target.value)
                                         }}
                                         type="textarea"
                                         placeholder={this.props.fieldFormatter[field]}
