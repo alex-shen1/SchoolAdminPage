@@ -21,10 +21,10 @@ export default class LoginPanel extends Component {
     }
 
     // temporary testing method; remove later
-    componentDidMount() { 
-        this.props.handleLogin("admin@admin.com", "password") 
-        // this.props.handleLogin("teacher@teacher.com", "password") 
-    }
+    // componentDidMount() { 
+    //     this.props.handleLogin("admin@admin.com", "password") 
+    //     // this.props.handleLogin("teacher@teacher.com", "password") 
+    // }
 
     render() {
         return <div>
