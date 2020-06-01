@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/AdminPage/static/css/main.b1672d81.chunk.css",
-    "main.js": "/AdminPage/static/js/main.22bd51be.chunk.js",
-    "main.js.map": "/AdminPage/static/js/main.22bd51be.chunk.js.map",
-    "runtime-main.js": "/AdminPage/static/js/runtime-main.5901734e.js",
-    "runtime-main.js.map": "/AdminPage/static/js/runtime-main.5901734e.js.map",
-    "static/css/2.c07b3c50.chunk.css": "/AdminPage/static/css/2.c07b3c50.chunk.css",
-    "static/js/2.f30bdd67.chunk.js": "/AdminPage/static/js/2.f30bdd67.chunk.js",
-    "static/js/2.f30bdd67.chunk.js.map": "/AdminPage/static/js/2.f30bdd67.chunk.js.map",
-    "index.html": "/AdminPage/index.html",
-    "precache-manifest.56e7d92ecb039f8119ea3d16a1bfa775.js": "/AdminPage/precache-manifest.56e7d92ecb039f8119ea3d16a1bfa775.js",
-    "service-worker.js": "/AdminPage/service-worker.js",
-    "static/css/2.c07b3c50.chunk.css.map": "/AdminPage/static/css/2.c07b3c50.chunk.css.map",
-    "static/css/main.b1672d81.chunk.css.map": "/AdminPage/static/css/main.b1672d81.chunk.css.map",
-    "static/js/2.f30bdd67.chunk.js.LICENSE.txt": "/AdminPage/static/js/2.f30bdd67.chunk.js.LICENSE.txt"
+    "main.css": "/Sudo/static/css/main.b1672d81.chunk.css",
+    "main.js": "/Sudo/static/js/main.824ec5ef.chunk.js",
+    "main.js.map": "/Sudo/static/js/main.824ec5ef.chunk.js.map",
+    "runtime-main.js": "/Sudo/static/js/runtime-main.31499117.js",
+    "runtime-main.js.map": "/Sudo/static/js/runtime-main.31499117.js.map",
+    "static/css/2.c07b3c50.chunk.css": "/Sudo/static/css/2.c07b3c50.chunk.css",
+    "static/js/2.12db8edd.chunk.js": "/Sudo/static/js/2.12db8edd.chunk.js",
+    "static/js/2.12db8edd.chunk.js.map": "/Sudo/static/js/2.12db8edd.chunk.js.map",
+    "index.html": "/Sudo/index.html",
+    "precache-manifest.46cf60f4006877d880fa70a660364f4c.js": "/Sudo/precache-manifest.46cf60f4006877d880fa70a660364f4c.js",
+    "service-worker.js": "/Sudo/service-worker.js",
+    "static/css/2.c07b3c50.chunk.css.map": "/Sudo/static/css/2.c07b3c50.chunk.css.map",
+    "static/css/main.b1672d81.chunk.css.map": "/Sudo/static/css/main.b1672d81.chunk.css.map",
+    "static/js/2.12db8edd.chunk.js.LICENSE.txt": "/Sudo/static/js/2.12db8edd.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.5901734e.js",
+    "static/js/runtime-main.31499117.js",
     "static/css/2.c07b3c50.chunk.css",
-    "static/js/2.f30bdd67.chunk.js",
+    "static/js/2.12db8edd.chunk.js",
     "static/css/main.b1672d81.chunk.css",
-    "static/js/main.22bd51be.chunk.js"
+    "static/js/main.824ec5ef.chunk.js"
   ]
 }
